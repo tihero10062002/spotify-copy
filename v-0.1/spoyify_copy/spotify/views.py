@@ -60,9 +60,12 @@ def MusicAdd(request):
 def add_to_favorite(request, pk):
     song = get_object_or_404(Music, pk=pk)
 
-
     if not FavoriteSong.objects.filter(user=request.user, song_name=song.pk, ).exists():
         FavoriteSong.objects.create(user=request.user, song_name=song)
 
-
     return redirect('spotify:home')
+
+
+def favorite(request):
+    mysong = FavoriteSong.objects.filter(user=request.user)
+    return render(request, 'favorite.html', {'mysong': mysong})
